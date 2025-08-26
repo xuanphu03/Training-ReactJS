@@ -1,12 +1,16 @@
 import { useForm, type SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { customerSchema, type Customer } from '@/schema/customer';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader } from './ui/card';
 import { Input } from './ui/input';
-import { customerSchema, type Customer } from '@/schema/customer';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 export default function Contact() {
-  const { register, handleSubmit, formState: { errors } } = useForm<Customer>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Customer>({
     resolver: zodResolver(customerSchema),
   });
 
