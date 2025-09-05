@@ -15,7 +15,7 @@ const useSearchProduct = (search: string) => {
         );
         const result = await response.json();
         setDataList(() => result.products.filter((product: Product) => 
-          product.title.toLowerCase().includes(search.toLowerCase())
+          product.title.toLowerCase().includes(search.toLowerCase()) || product.category.toLowerCase().includes(search.toLowerCase())
         ));
       } catch (err) {
         setError(err);
