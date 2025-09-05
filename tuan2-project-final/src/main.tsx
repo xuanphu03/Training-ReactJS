@@ -38,7 +38,6 @@ createRoot(document.getElementById('root')!).render(
               path="products/:id"
               element={<ElementRoute.ProductDetail />}
             />
-            <Route path="*" element={<div>Not Found</div>} />
           </Route>
         </Routes>
       </BrowserRouter>
