@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { clearCart, removeFromCart } from "@/features/shoppingCartSlice";
 import type { RootState } from "@/stores/store";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,7 +15,7 @@ export default function ShoppingCart() {
             <p>Tên sản phẩm: {item.product.title}</p>
             <p>Giá: {item.product.price}</p>
             <p>Số lượng: {item.quantity}</p>
-            <Button onClick={() => dispatch(removeFromCart(item.product.id))}>
+            <Button onClick={() => dispatch({ type: 'REMOVE_FROM_CART', payload: item.product.id })}>
               Xóa
             </Button>
           </li>
@@ -24,14 +23,14 @@ export default function ShoppingCart() {
       </ul>
       <h3>Tổng tiền: {total}</h3>
       <div className="flex gap-4">
-        <Button onClick={() => dispatch(clearCart())}>Xóa giỏ hàng</Button>
+        <Button onClick={() => dispatch({ type: 'CLEAR_CART' })}>Xóa giỏ hàng</Button>
         <Button onClick={() => {
           if(items.length === 0) {
             alert('Giỏ hàng trống, không thể thanh toán');
             return;
           }
           alert('Thanh toán thành công');
-          dispatch(clearCart());
+          dispatch({ type: 'CLEAR_CART' });
         }}>Thanh toán</Button>
       </div>
     </div>

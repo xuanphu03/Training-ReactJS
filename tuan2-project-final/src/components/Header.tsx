@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import type { AppDispatch, RootState } from '@/stores/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '@/features/authSlice';
+import { logout } from '@/features/authAction';
 
 export default function Header() {
   const NAVIGATION = [
@@ -31,7 +31,7 @@ export default function Header() {
           </div>
         ))}
       </div>
-      {!user.userToken ? (
+      {!user.token ? (
         <Button className="justify-self-end" onClick={() => router('/login')}>
           Đăng nhập
         </Button>
@@ -40,7 +40,7 @@ export default function Header() {
           <Button onClick={() => router('/shopping-cart')}>
             Giỏ hàng: {total}
           </Button>
-          <p>{user.userInfo?.username}</p>
+          <p>{user.username}</p>
           <Button onClick={() => dispatch(logout())}>Đăng xuất</Button>
         </div>
       )}

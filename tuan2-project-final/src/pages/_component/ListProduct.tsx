@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button';
-import { addToCart } from '@/features/shoppingCartSlice';
 import type { Product } from '@/hooks/useProduct';
 import type { AppDispatch } from '@/stores/store';
 import { useDispatch } from 'react-redux';
@@ -39,7 +38,7 @@ export default function ListProduct({
           <Button onClick={(e) => {
             e.stopPropagation();
             alert('Thêm vào giỏ hàng thành công');
-            dispatch(addToCart(product));
+            dispatch({ type: 'ADD_TO_CART', payload: product });
           }}>
             Thêm vào giỏ hàng
           </Button>

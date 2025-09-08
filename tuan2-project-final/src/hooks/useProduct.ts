@@ -15,22 +15,20 @@ const useProduct = (id?: string) => {
   const [dataDetail, setDataDetail] = React.useState<Product>();
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<unknown>(null);
-  const [pagination, setPagination] = React.useState({ page: 1, limit: 10 });
+  const [pagination, setPagination] = React.useState();
 
   React.useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `https://fakestoreapi.in/api/products${id ? `/${id}` : ''}?limit=${
-            pagination.limit
-          }&page=${pagination.page}`
+          `https://fakestoreapi.com/products${id ? `/${id}` : ''}`
         );
         const result = await response.json();
         if (id) {
-          setDataDetail(() => result.product);
+          setDataDetail(() => result);
         }
-        setDataList(() => result.products);
+        setDataList(() => result);
       } catch (err) {
         setError(err);
       } finally {

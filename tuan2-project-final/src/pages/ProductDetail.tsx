@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button';
-import { addToCart } from '@/features/shoppingCartSlice';
 import useProduct from '@/hooks/useProduct';
 import type { AppDispatch } from '@/stores/store';
 import { useDispatch } from 'react-redux';
@@ -16,7 +15,7 @@ export default function ProductDetail() {
 
   const handleClick = () => {
     router('/shopping-cart');
-    dispatch(addToCart({ ...dataDetail! }));
+    dispatch({ type: 'ADD_TO_CART', payload: dataDetail! });
   };
   return (
     <div>

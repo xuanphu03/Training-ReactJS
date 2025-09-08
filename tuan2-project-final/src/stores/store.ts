@@ -1,13 +1,20 @@
-import { configureStore } from '@reduxjs/toolkit';
+import {
+  legacy_createStore as createStore,
+  combineReducers,
+  applyMiddleware,
+} from 'redux';
+import { type ThunkDispatch, thunk } from 'redux-thunk'
 import authReducer from '../features/authSlice';
 import shoppingCartReducer from '../features/shoppingCartSlice';
 
-const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    shoppingCart: shoppingCartReducer,
-  },
+const rootReducer = combineReducers({
+  auth: authReducer,
+  shoppingCart: shoppingCartReducer,
 });
-export default store;
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppDispatch = ThunkDispatch<RootState, unknown, any>;
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
+
+export default store

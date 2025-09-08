@@ -4,11 +4,11 @@ import { Input } from '@/components/ui/input';
 import { userSchema } from '@/schema/customer';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AppDispatch, RootState } from '@/stores/store';
-import { loginUser } from '@/features/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import login from '@/features/authAction';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '@/stores/store';
 
 interface FormData {
   email: string;
@@ -17,7 +17,7 @@ interface FormData {
 
 export default function LoginPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const user = useSelector((state: RootState) => state.auth);
   const router = useNavigate();
 
   const {
@@ -30,15 +30,14 @@ export default function LoginPage() {
 
   const onSubmit = (data: FormData) => {
     // handle login logic here
-    const { email, password } = data;
-    dispatch(loginUser({ email, password }));
+    dispatch(login(data.email, data.password));
   };
 
   useEffect(() => {
-    if (userInfo) {
+    if (user.token) {
       router('/');
     }
-  }, [userInfo, router]);
+  }, [user.token, router]);
 
   return (
     <div className="w-full">
