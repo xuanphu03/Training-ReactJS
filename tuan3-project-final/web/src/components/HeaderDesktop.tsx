@@ -2,15 +2,14 @@ import { NAVIGATION } from "@/types/constain";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "@/stores/store";
+import type { RootState } from "@/stores/store";
 import { logout } from "@/features/authAction";
 import Logo from "./ui/logo";
 
 export default function HeaderDesktop() {
   const router = useNavigate();
   const user = useSelector((state: RootState) => state.auth);
-  const { total } = useSelector((state: RootState) => state.shoppingCart);
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
 
   return (
     <header className="bg-background/95 sticky top-0 hidden w-full items-center border-b px-4 md:grid md:grid-cols-2 lg:grid-cols-3">
@@ -26,16 +25,13 @@ export default function HeaderDesktop() {
           </div>
         ))}
       </div>
-      {!user.token ? (
+      {!user.email ? (
         <Button className="justify-self-end" onClick={() => router("/login")}>
           Đăng nhập
         </Button>
       ) : (
         <div className="flex items-center justify-center gap-5 justify-self-end">
-          <Button onClick={() => router("/shopping-cart")}>
-            Giỏ hàng: {total}
-          </Button>
-          <p>{user.username}</p>
+          <p>{user.email}</p>
           <Button onClick={() => dispatch(logout())}>Đăng xuất</Button>
         </div>
       )}

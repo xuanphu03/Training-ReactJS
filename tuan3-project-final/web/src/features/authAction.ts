@@ -1,33 +1,29 @@
-import { type Dispatch } from 'redux';
+import { fetchLoginApi } from "@/apis/auth";
+import { type Dispatch } from "redux";
+import {
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGOUT,
+} from "./authTypes";
 
-interface User {
-  username: string;
-  token: string;
-}
-
-const LoginApi = (email: string, password: string): Promise<User> =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (email === 'chuyennhagao@gmail.com' && password === '123456789') {
-        resolve({ username: 'admin', token: 'fake-jwt-token' });
-      } else {
-        reject('Invalid email or password');
-      }
-    }, 1000);
-  });
-
-export default function login(email: string, password: string) {
+export const login = (email: string, password: string) => {
   return async (dispatch: Dispatch) => {
-    dispatch({ type: 'LOGIN_REQUEST' });
+    dispatch({ type: LOGIN_REQUEST });
     try {
-      const user = await LoginApi(email, password);
-      dispatch({ type: 'LOGIN_SUCCESS', payload: user });
+      const response = await fetchLoginApi({ email, password });
+      console.log(response)
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: response,
+      });
     } catch (error) {
-      dispatch({ type: 'LOGIN_FAILURE', payload: String(error) });
+      dispatch({
+        type: LOGIN_FAILURE,
+        payload: error || "Login failed",
+      });
     }
   };
-}
+};
 
-export function logout() {
-  return { type: 'LOGOUT' };
-}
+export const logout = () => ({ type: LOGOUT });

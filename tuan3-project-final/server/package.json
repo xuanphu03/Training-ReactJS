@@ -1,0 +1,27 @@
+{
+  "name": "final-week3-server",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.1",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express-session": "^1.18.2",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2"
+  }
+}
