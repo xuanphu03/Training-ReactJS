@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="flex flex-col justify-between min-h-screen bg-background overflow-x-hidden relative">
+    <div className="bg-background">
       <Header />
       <main className="container mx-auto flex-1">
         <Outlet />
