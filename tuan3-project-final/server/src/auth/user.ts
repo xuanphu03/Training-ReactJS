@@ -19,7 +19,18 @@ router.use(
   })
 );
 
-const users = [{ id: 1, email: 'chuyennhagao@gmail.com', password: '123456' }];
+const users = [
+  {
+    id: 1,
+    email: 'chuyennhagao@gmail.com',
+    password: '123456',
+  },
+  {
+    id: 2,
+    email: 'demo@gmail.com',
+    password: '123456',
+  },
+];
 
 router.post('/login', (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -32,7 +43,8 @@ router.post('/login', (req: Request, res: Response) => {
     return res.status(401).json({ message: 'User does not exist' });
   }
 
-  (req.session as Session & Partial<SessionData> & { user?: userRs }).user = user.email;
+  (req.session as Session & Partial<SessionData> & { user?: userRs }).user =
+    user.email;
 
   res.json({
     message: 'Login successful',

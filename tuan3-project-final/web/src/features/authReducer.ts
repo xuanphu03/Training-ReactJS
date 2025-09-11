@@ -5,7 +5,7 @@ import {
   LOGOUT,
 } from "./authTypes";
 
-interface AuthState {
+export interface AuthState {
   email: string | null;
   loading: boolean;
   error: string | null;
@@ -35,7 +35,7 @@ function authReducer(
       return { ...state, loading: false, error: action.payload };
     case LOGOUT:
       localStorage.clear();
-      return { ...state, email: null };
+      return initialState;
     default:
       return state;
   }
