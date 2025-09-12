@@ -9,11 +9,15 @@ import {
 } from "firebase/firestore";
 import { Ellipsis, Link, MessageCircle, ThumbsUp } from "lucide-react";
 import React from "react";
+import { formatDate } from "../services/FormatDate";
+import { isEqual } from "../services/DeepComparison";
+import { LikeServices } from "../services/LikeServices";
 
-interface StatusProps {
+export interface StatusProps {
   senderId: string;
   text: string;
   createdAt: Date;
+  likes: string[];
 }
 
 interface OpenStateTypes {
@@ -23,9 +27,9 @@ interface OpenStateTypes {
 
 export default function Status() {
   const ActionButton = [
-    { id: 1, name: "Like", icon: <ThumbsUp /> },
-    { id: 2, name: "Comment", icon: <MessageCircle /> },
-    { id: 3, name: "Share", icon: <Link /> },
+    { id: 1, name: "Like", icon: <ThumbsUp />, action: LikeServices },
+    { id: 2, name: "Comment", icon: <MessageCircle />, action: () => {} },
+    { id: 3, name: "Share", icon: <Link />, action: () => {} },
   ];
 
   const [contents, setContents] = React.useState<StatusProps[]>([]);
@@ -37,7 +41,7 @@ export default function Status() {
 
   React.useEffect(() => {
     const unSub = onSnapshot(doc(db, "status", "posts"), (res) => {
-      setContents(() => res.data()?.messages.reverse() || []);
+      setContents(() => res.data()?.status.reverse() || []);
     });
 
     return () => {
@@ -45,32 +49,15 @@ export default function Status() {
     };
   }, [setContents, email]);
 
-  const formatDate = (date: Date) => {
-    const dateObj = date as unknown as { seconds: number; nanoseconds: number };
-    const dateChange = new Date(
-      dateObj.seconds * 1000 + dateObj.nanoseconds / 1e6,
-    );
-    console.log(dateChange);
-    return `${dateChange.getHours()}:${dateChange.getMinutes()}:${dateChange.getSeconds()} ${dateChange.getDate()}/${dateChange.getMonth() + 1}/${dateChange.getFullYear()}`;
-  };
-
-  function isEqual(obj1: StatusProps, obj2: StatusProps) {
-    return (
-      obj1.senderId === obj2.senderId &&
-      obj1.text === obj2.text &&
-      obj1.createdAt.toString() === obj2.createdAt.toString()
-    );
-  }
-
   const handleDeleteStatus = async (content: StatusProps) => {
     const docRef = doc(db, "status", "posts");
     const querySnapshot = await getDoc(docRef);
 
     const status = querySnapshot
       .data()
-      ?.messages.find((item: StatusProps) => isEqual(item, content));
+      ?.status.find((item: StatusProps) => isEqual(item, content));
     await updateDoc(docRef, {
-      messages: arrayRemove(status),
+      status: arrayRemove(status),
     });
   };
 
@@ -103,10 +90,11 @@ export default function Status() {
               <Button
                 key={action.id}
                 variant="outline"
+                onClick={() => action.action(content)}
                 className="mx-2 flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-blue-500"
               >
                 {action.icon}
-                <p className='hidden md:block'>{action.name}</p>
+                <p className="hidden md:block">{action.name}</p>
               </Button>
             ))}
           </div>

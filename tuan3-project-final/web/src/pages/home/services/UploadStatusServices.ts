@@ -1,4 +1,3 @@
-// chatService.ts
 import { db } from "@/firebase/config";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 
@@ -7,10 +6,11 @@ export const sendStatus = async (
   text: string,
 ) => {
   await updateDoc(doc(db, "status", "posts"), {
-    messages: arrayUnion({
+    status: arrayUnion({
       senderId: sender,
       text,
       createdAt: new Date(),
+      likes: [],
     }),
   });
 };

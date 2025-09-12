@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { sendMessage } from "./services/ChatSevice";
+import { sendMessage } from "./services/ChatService";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase/config";
 import { cn } from "@/lib/utils";
